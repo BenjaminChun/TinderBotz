@@ -5,37 +5,27 @@ Created by Frederikme (TeetiFM)
 from tinderbotz.session import Session
 from tinderbotz.helpers.constants_helper import *
 
+GEOMATCH_LIMIT = 1
+
 if __name__ == "__main__":
     # creates instance of session
     session = Session()
-    # Or if you want to use a proxy
-    # AUTHORISED BY IP -> "HOST:PORT"
-    # AUTHORISED BY USERNAME, PASSWORD -> "username:password@HOST:PORT"
-    session = Session(proxy="23.23.23.23:3128")
-
+    
     # set location (Don't need to be logged in for this)
+    # can choose to use it or nah
     session.set_custom_location(latitude=50.879829, longitude=4.700540)
     
     # replace this with your own email and password!
     email = "example@gmail.com"
-    password = "password123"
-    
-    # login using your google account with a verified email!
-    session.login_using_google(email, password)
+    password = "password"
+
+    # For the login portion as there seems to be additional authentication by phone that is needed
+    # so best for human operator to work on it until login is done
 
     # Alternatively you can login using facebook with a connected profile!
     session.login_using_facebook(email, password)
 
-    # Alternatively, you can also use your phone number to login
     '''
-    - country is needed to get the right prefix, in my case +32
-    - phone_number is everything after the prefix (+32)
-    NOTE: this is not my phone number :)
-    '''
-    country = "Belgium"
-    phone_number = "479011124"
-    session.login_using_sms(country, phone_number)
-
     # spam likes, dislikes and superlikes
     # to avoid being banned:
     #   - it's best to apply a randomness in your liking by sometimes disliking.
@@ -99,12 +89,13 @@ if __name__ == "__main__":
 
         # you can also unmatch
         #session.unmatch(chatid=id)
-
+    '''
     # let's scrape some geomatches now
-    for _ in range(5):
+    for _ in range(GEOMATCH_LIMIT):
         # get profile data (name, age, bio, images, ...)
         geomatch = session.get_geomatch(quickload=False)
         # store this data locally as json with reference to their respective (locally stored) images
+        # store local uses json.dumps() which appends to existing json file, so no need to worry about overwriting
         session.store_local(geomatch)
         # dislike the profile, so it will show us the next geomatch (since we got infinite amount of dislikes anyway)
         session.dislike()

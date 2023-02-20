@@ -285,6 +285,8 @@ class Session:
             age = helper.get_age()
 
             bio, passions, lifestyle, basics, anthem, looking_for = helper.get_bio_and_passions()
+            # print(len(bio))
+            # can filter out ppl with less in bio here
             image_urls = helper.get_image_urls(quickload)
             instagram = helper.get_insta(bio)
             rowdata = helper.get_row_data()
